@@ -1,0 +1,163 @@
+{% extends 'base.html' %}
+{% block title %}{{ profile.name }} | Python Developer{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero" id="hero">
+    <div class="container">
+        <div class="hero-content">
+            <div class="hero-text">
+                <p class="hero-greeting animate-fade-up">Hello, I'm</p>
+                <h1 class="hero-name animate-fade-up delay-1">{{ profile.name }}</h1>
+                <div class="hero-title-wrapper animate-fade-up delay-2">
+                    <span class="hero-title-label">I am a</span>
+                    <span class="hero-title typewriter" id="typewriter"></span>
+                    <span class="cursor">|</span>
+                </div>
+                <p class="hero-description animate-fade-up delay-3">{{ profile.tagline }}</p>
+                <div class="hero-buttons animate-fade-up delay-4">
+                    <a href="{{ url_for('projects') }}" class="btn btn-primary">
+                        <span>View Projects</span>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <path d="M5 12h14M12 5l7 7-7 7" />
+                        </svg>
+                    </a>
+                    <a href="{{ url_for('contact') }}" class="btn btn-outline">
+                        <span>Get In Touch</span>
+                    </a>
+                </div>
+                <div class="hero-stats animate-fade-up delay-5">
+                    <div class="stat-item">
+                        <span class="stat-number" data-count="6">0</span>
+                        <span class="stat-label">Projects</span>
+                    </div>
+                    <div class="stat-divider"></div>
+                    <div class="stat-item">
+                        <span class="stat-number" data-count="120">0</span>
+                        <span class="stat-label">Hours Training</span>
+                    </div>
+                    <div class="stat-divider"></div>
+                    <div class="stat-item">
+                        <span class="stat-number" data-count="8">0</span>
+                        <span class="stat-label">Technologies</span>
+                    </div>
+                </div>
+            </div>
+            <div class="hero-visual animate-fade-left delay-2">
+                <div class="code-window">
+                    <div class="code-header">
+                        <div class="code-dots">
+                            <span class="dot dot-red"></span>
+                            <span class="dot dot-yellow"></span>
+                            <span class="dot dot-green"></span>
+                        </div>
+                        <span class="code-filename">developer.py</span>
+                    </div>
+                    <pre class="code-body"><code><span class="code-keyword">class</span> <span class="code-class">Developer</span>:
+    <span class="code-keyword">def</span> <span class="code-func">__init__</span>(self):
+        self.name = <span class="code-string">"{{ profile.name }}"</span>
+        self.role = <span class="code-string">"{{ profile.title }}"</span>
+        self.skills = [
+            <span class="code-string">"Python"</span>,
+            <span class="code-string">"Flask"</span>,
+            <span class="code-string">"Backend Dev"</span>
+        ]
+        self.passionate = <span class="code-bool">True</span>
+
+    <span class="code-keyword">def</span> <span class="code-func">build</span>(self):
+        <span class="code-keyword">return</span> <span class="code-string">"Amazing Apps"</span> 🚀</code></pre>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="scroll-indicator">
+        <div class="mouse">
+            <div class="wheel"></div>
+        </div>
+        <span>Scroll Down</span>
+    </div>
+</section>
+
+<!-- Featured Projects Section -->
+<section class="section featured-projects" id="featured">
+    <div class="container">
+        <div class="section-header">
+            <span class="section-tag">Portfolio</span>
+            <h2 class="section-title">Featured Projects</h2>
+            <p class="section-subtitle">Showcasing my best work from the internship</p>
+        </div>
+        <div class="projects-grid">
+            {% for project in projects %}
+            <div class="project-card animate-on-scroll" style="--accent: {{ project.color }}">
+                <div class="project-icon">{{ project.icon }}</div>
+                <span class="project-category">{{ project.category }}</span>
+                <h3 class="project-title">{{ project.title }}</h3>
+                <p class="project-desc">{{ project.description }}</p>
+                <div class="project-tech">
+                    {% for tech in project.tech %}
+                    <span class="tech-tag">{{ tech }}</span>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="section-cta">
+            <a href="{{ url_for('projects') }}" class="btn btn-primary">
+                <span>View All Projects</span>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M5 12h14M12 5l7 7-7 7" />
+                </svg>
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- Quick About Section -->
+<section class="section about-preview">
+    <div class="container">
+        <div class="about-preview-grid">
+            <div class="about-preview-text animate-on-scroll">
+                <span class="section-tag">About Me</span>
+                <h2 class="section-title">A Brief Introduction</h2>
+                <p>{{ profile.about }}</p>
+                <div class="about-highlights">
+                    <div class="highlight-item">
+                        <span class="highlight-icon">🎓</span>
+                        <div>
+                            <strong>{{ profile.education }}</strong>
+                            <span>Education</span>
+                        </div>
+                    </div>
+                    <div class="highlight-item">
+                        <span class="highlight-icon">🏢</span>
+                        <div>
+                            <strong>{{ profile.internship_company }}</strong>
+                            <span>Internship</span>
+                        </div>
+                    </div>
+                    <div class="highlight-item">
+                        <span class="highlight-icon">⏰</span>
+                        <div>
+                            <strong>{{ profile.internship_hours }}</strong>
+                            <span>Training</span>
+                        </div>
+                    </div>
+                </div>
+                <a href="{{ url_for('about') }}" class="btn btn-outline">Learn More About Me</a>
+            </div>
+            <div class="about-preview-visual animate-on-scroll">
+                <div class="experience-card glass-card">
+                    <h3>Internship at StaxTech</h3>
+                    <p class="exp-duration">{{ profile.internship_duration }}</p>
+                    <p class="exp-role">{{ profile.title }}</p>
+                    <div class="exp-bar">
+                        <div class="exp-bar-fill" data-width="100"></div>
+                    </div>
+                    <span class="exp-label">120 / 120 Hours Completed ✓</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

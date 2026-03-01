@@ -1,0 +1,122 @@
+{% extends 'base.html' %}
+{% block title %}Skills | {{ profile.name }}{% endblock %}
+
+{% block content %}
+<section class="section page-header">
+    <div class="container">
+        <span class="section-tag">Expertise</span>
+        <h1 class="page-title">My Skills</h1>
+        <p class="page-subtitle">Technical and professional competencies developed through training and practice</p>
+    </div>
+</section>
+
+<!-- Technical Skills -->
+<section class="section skills-section">
+    <div class="container">
+        <div class="section-header">
+            <span class="section-tag">Technical</span>
+            <h2 class="section-title">Technical Skills</h2>
+            <p class="section-subtitle">Core programming and development technologies</p>
+        </div>
+        <div class="skills-grid">
+            {% for skill in skills.technical %}
+            <div class="skill-card glass-card animate-on-scroll">
+                <div class="skill-header">
+                    <span class="skill-icon">{{ skill.icon }}</span>
+                    <span class="skill-percentage">{{ skill.level }}%</span>
+                </div>
+                <h3 class="skill-name">{{ skill.name }}</h3>
+                <div class="skill-bar">
+                    <div class="skill-bar-fill" data-width="{{ skill.level }}"></div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- Professional Skills -->
+<section class="section skills-section">
+    <div class="container">
+        <div class="section-header">
+            <span class="section-tag">Professional</span>
+            <h2 class="section-title">Professional Skills</h2>
+            <p class="section-subtitle">Workplace and soft skills developed during internship</p>
+        </div>
+        <div class="skills-grid">
+            {% for skill in skills.professional %}
+            <div class="skill-card glass-card animate-on-scroll">
+                <div class="skill-header">
+                    <span class="skill-icon">{{ skill.icon }}</span>
+                    <span class="skill-percentage">{{ skill.level }}%</span>
+                </div>
+                <h3 class="skill-name">{{ skill.name }}</h3>
+                <div class="skill-bar">
+                    <div class="skill-bar-fill" data-width="{{ skill.level }}"></div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- Tools & Technologies -->
+<section class="section tools-section">
+    <div class="container">
+        <div class="section-header">
+            <span class="section-tag">Tools</span>
+            <h2 class="section-title">Technologies & Tools</h2>
+        </div>
+        <div class="tools-grid animate-on-scroll">
+            <div class="tool-item glass-card">
+                <span class="tool-icon">🐍</span>
+                <span>Python</span>
+            </div>
+            <div class="tool-item glass-card">
+                <span class="tool-icon">🌶️</span>
+                <span>Flask</span>
+            </div>
+            <div class="tool-item glass-card">
+                <span class="tool-icon">🎸</span>
+                <span>Django</span>
+            </div>
+            <div class="tool-item glass-card">
+                <span class="tool-icon">🌐</span>
+                <span>HTML5</span>
+            </div>
+            <div class="tool-item glass-card">
+                <span class="tool-icon">🎨</span>
+                <span>CSS3</span>
+            </div>
+            <div class="tool-item glass-card">
+                <span class="tool-icon">⚡</span>
+                <span>JavaScript</span>
+            </div>
+            <div class="tool-item glass-card">
+                <span class="tool-icon">🗄️</span>
+                <span>SQL</span>
+            </div>
+            <div class="tool-item glass-card">
+                <span class="tool-icon">📂</span>
+                <span>Git</span>
+            </div>
+            <div class="tool-item glass-card">
+                <span class="tool-icon">🐙</span>
+                <span>GitHub</span>
+            </div>
+            <div class="tool-item glass-card">
+                <span class="tool-icon">📊</span>
+                <span>CSV / JSON</span>
+            </div>
+            <div class="tool-item glass-card">
+                <span class="tool-icon">🔧</span>
+                <span>os / shutil</span>
+            </div>
+            <div class="tool-item glass-card">
+                <span class="tool-icon">🔤</span>
+                <span>Regex</span>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,94 @@
+{% extends 'base.html' %}
+{% block title %}Contact | {{ profile.name }}{% endblock %}
+
+{% block content %}
+<section class="section page-header">
+    <div class="container">
+        <span class="section-tag">Reach Out</span>
+        <h1 class="page-title">Contact Me</h1>
+        <p class="page-subtitle">Have a question or want to work together? Send me a message!</p>
+    </div>
+</section>
+
+<section class="section contact-section">
+    <div class="container">
+        <div class="contact-grid">
+            <!-- Contact Info -->
+            <div class="contact-info animate-on-scroll">
+                <h2>Let's Connect</h2>
+                <p>Feel free to reach out for collaborations, projects, or just a friendly chat about Python
+                    development.</p>
+
+                <div class="contact-cards">
+                    <div class="contact-card glass-card">
+                        <span class="contact-icon">📧</span>
+                        <div>
+                            <h4>Email</h4>
+                            <p>{{ profile.email }}</p>
+                        </div>
+                    </div>
+                    <div class="contact-card glass-card">
+                        <span class="contact-icon">📍</span>
+                        <div>
+                            <h4>Location</h4>
+                            <p>{{ profile.location }}</p>
+                        </div>
+                    </div>
+                    <div class="contact-card glass-card">
+                        <span class="contact-icon">🐙</span>
+                        <div>
+                            <h4>GitHub</h4>
+                            <a href="{{ profile.github }}" target="_blank">View Profile</a>
+                        </div>
+                    </div>
+                    <div class="contact-card glass-card">
+                        <span class="contact-icon">🏢</span>
+                        <div>
+                            <h4>Internship</h4>
+                            <p>{{ profile.internship_company }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Contact Form -->
+            <div class="contact-form-wrapper animate-on-scroll">
+                <form action="{{ url_for('contact') }}" method="POST" class="contact-form glass-card" id="contact-form"
+                    novalidate>
+                    <div class="form-group">
+                        <label for="name">Full Name <span class="required">*</span></label>
+                        <input type="text" id="name" name="name" placeholder="Your name"
+                            value="{{ form_data.get('name', '') }}" required minlength="2">
+                        <span class="form-error" id="name-error"></span>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email Address <span class="required">*</span></label>
+                        <input type="email" id="email" name="email" placeholder="your@email.com"
+                            value="{{ form_data.get('email', '') }}" required>
+                        <span class="form-error" id="email-error"></span>
+                    </div>
+                    <div class="form-group">
+                        <label for="subject">Subject <span class="required">*</span></label>
+                        <input type="text" id="subject" name="subject" placeholder="What's this about?"
+                            value="{{ form_data.get('subject', '') }}" required>
+                        <span class="form-error" id="subject-error"></span>
+                    </div>
+                    <div class="form-group">
+                        <label for="message">Message <span class="required">*</span></label>
+                        <textarea id="message" name="message" rows="5" placeholder="Your message here..." required
+                            minlength="10">{{ form_data.get('message', '') }}</textarea>
+                        <span class="form-error" id="message-error"></span>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-full" id="submit-btn">
+                        <span>Send Message</span>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z" />
+                        </svg>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

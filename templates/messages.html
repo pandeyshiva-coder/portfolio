@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+{% block title %}Messages | {{ profile.name }}{% endblock %}
+
+{% block content %}
+<section class="section page-header">
+    <div class="container">
+        <span class="section-tag">Inbox</span>
+        <h1 class="page-title">Messages</h1>
+        <p class="page-subtitle">All messages received through the contact form</p>
+    </div>
+</section>
+
+<section class="section messages-section">
+    <div class="container">
+        <!-- Stats Bar -->
+        <div class="messages-stats glass-card animate-on-scroll">
+            <div class="msg-stat">
+                <span class="msg-stat-number">{{ messages | length }}</span>
+                <span class="msg-stat-label">Total Messages</span>
+            </div>
+            <div class="msg-stat">
+                <span class="msg-stat-number">📬</span>
+                <span class="msg-stat-label">Inbox</span>
+            </div>
+        </div>
+
+        {% if messages %}
+        <div class="messages-list">
+            {% for msg in messages | reverse %}
+            <div class="message-card glass-card animate-on-scroll">
+                <div class="message-header">
+                    <div class="message-sender">
+                        <div class="sender-avatar">{{ msg.name[0] | upper }}</div>
+                        <div class="sender-info">
+                            <h3>{{ msg.name }}</h3>
+                            <a href="mailto:{{ msg.email }}">{{ msg.email }}</a>
+                        </div>
+                    </div>
+                    <div class="message-time">
+                        <span class="msg-id">#{{ msg.id }}</span>
+                        <span class="msg-timestamp">{{ msg.timestamp }}</span>
+                    </div>
+                </div>
+                <div class="message-subject">
+                    <strong>Subject:</strong> {{ msg.subject }}
+                </div>
+                <div class="message-body">
+                    <p>{{ msg.message }}</p>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="no-messages glass-card animate-on-scroll">
+            <span class="no-msg-icon">📭</span>
+            <h3>No Messages Yet</h3>
+            <p>When someone sends you a message through the contact form, it will appear here.</p>
+        </div>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}

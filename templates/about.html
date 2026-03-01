@@ -1,0 +1,143 @@
+{% extends 'base.html' %}
+{% block title %}About | {{ profile.name }}{% endblock %}
+
+{% block content %}
+<section class="section page-header">
+    <div class="container">
+        <span class="section-tag">About Me</span>
+        <h1 class="page-title">About Me</h1>
+        <p class="page-subtitle">Know more about my journey, education, and internship experience</p>
+    </div>
+</section>
+
+<section class="section about-section">
+    <div class="container">
+        <div class="about-grid">
+            <div class="about-info animate-on-scroll">
+                <h2>Who am I?</h2>
+                <p>{{ profile.about }}</p>
+                <p>
+                    During my internship at <strong>{{ profile.internship_company }}</strong>, I developed two fully
+                    functional
+                    portfolio web applications, worked with Python frameworks, and strengthened my backend engineering
+                    skills
+                    through structured project development, debugging, and deployment preparation.
+                </p>
+
+                <div class="info-cards">
+                    <div class="info-card glass-card">
+                        <span class="info-icon">👤</span>
+                        <h4>Name</h4>
+                        <p>{{ profile.name }}</p>
+                    </div>
+                    <div class="info-card glass-card">
+                        <span class="info-icon">🎓</span>
+                        <h4>Education</h4>
+                        <p>{{ profile.education }}</p>
+                    </div>
+                    <div class="info-card glass-card">
+                        <span class="info-icon">📍</span>
+                        <h4>Location</h4>
+                        <p>{{ profile.location }}</p>
+                    </div>
+                    <div class="info-card glass-card">
+                        <span class="info-icon">💼</span>
+                        <h4>Role</h4>
+                        <p>{{ profile.title }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Internship Details -->
+<section class="section internship-section">
+    <div class="container">
+        <div class="section-header">
+            <span class="section-tag">Experience</span>
+            <h2 class="section-title">Internship at StaxTech</h2>
+            <p class="section-subtitle">{{ profile.internship_duration }} • {{ profile.internship_hours }} of Structured
+                Training</p>
+        </div>
+
+        <div class="internship-overview glass-card animate-on-scroll">
+            <div class="overview-grid">
+                <div class="overview-item">
+                    <span class="overview-number">120</span>
+                    <span class="overview-label">Total Hours</span>
+                </div>
+                <div class="overview-item">
+                    <span class="overview-number">4</span>
+                    <span class="overview-label">Weeks</span>
+                </div>
+                <div class="overview-item">
+                    <span class="overview-number">6</span>
+                    <span class="overview-label">Projects</span>
+                </div>
+                <div class="overview-item">
+                    <span class="overview-number">2</span>
+                    <span class="overview-label">Web Apps</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Timeline -->
+        <div class="timeline">
+            {% for item in timeline %}
+            <div class="timeline-item animate-on-scroll">
+                <div class="timeline-marker">
+                    <span class="timeline-week">{{ item.week }}</span>
+                </div>
+                <div class="timeline-content glass-card">
+                    <h3>{{ item.title }}</h3>
+                    <span class="timeline-hours">{{ item.hours }} Hours</span>
+                    <ul class="timeline-tasks">
+                        {% for task in item.tasks %}
+                        <li>{{ task }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- Learning Methodology -->
+<section class="section methodology-section">
+    <div class="container">
+        <div class="section-header">
+            <span class="section-tag">Approach</span>
+            <h2 class="section-title">Learning Methodology</h2>
+        </div>
+        <div class="methodology-grid">
+            <div class="method-card glass-card animate-on-scroll">
+                <span class="method-step">01</span>
+                <h4>Orientation</h4>
+                <p>Introduction to company workflow and development standards</p>
+            </div>
+            <div class="method-card glass-card animate-on-scroll">
+                <span class="method-step">02</span>
+                <h4>Assignment-Based</h4>
+                <p>Task execution through structured project assignments</p>
+            </div>
+            <div class="method-card glass-card animate-on-scroll">
+                <span class="method-step">03</span>
+                <h4>Code Review</h4>
+                <p>Evaluation and corrections for quality improvement</p>
+            </div>
+            <div class="method-card glass-card animate-on-scroll">
+                <span class="method-step">04</span>
+                <h4>Clarification</h4>
+                <p>Concept clarification sessions and mentoring</p>
+            </div>
+            <div class="method-card glass-card animate-on-scroll">
+                <span class="method-step">05</span>
+                <h4>Performance</h4>
+                <p>Tracking progress and measuring improvements</p>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
