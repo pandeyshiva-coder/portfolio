@@ -8,6 +8,7 @@ from flask import Flask, render_template, request, redirect, url_for, flash, jso
 import re
 import os
 import json
+import threading
 import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
@@ -15,36 +16,6 @@ from datetime import datetime
 
 app = Flask(__name__)
 app.secret_key = 'staxtech_portfolio_2026'
-
-# Path to store contact messages
-MESSAGES_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'messages.json')
-
-
-def save_message(name, email, subject, message):
-    """Save contact form message to messages.json."""
-    # Load existing messages
-    messages = []
-    if os.path.exists(MESSAGES_FILE):
-        try:
-            with open(MESSAGES_FILE, 'r', encoding='utf-8') as f:
-                messages = json.load(f)
-        except (json.JSONDecodeError, IOError):
-            messages = []
-
-    # Add new message
-    messages.append({
-        'id': len(messages) + 1,
-        'name': name,
-        'email': email,
-        'subject': subject,
-        'message': message,
-        'timestamp': datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-    })
-
-    # Save to file
-    with open(MESSAGES_FILE, 'w', encoding='utf-8') as f:
-        json.dump(messages, f, indent=4, ensure_ascii=False)
-
 
 # Email Configuration
 EMAIL_ADDRESS = 'pandeyshiva1105@gmail.com'
@@ -86,6 +57,16 @@ def send_email_notification(name, email, subject, message):
     except Exception as e:
         print(f'Email sending failed: {e}')
         return False
+
+
+def send_email_async(name, email, subject, message):
+    """Send email notification in a background thread to avoid blocking the request."""
+    thread = threading.Thread(
+        target=send_email_notification,
+        args=(name, email, subject, message)
+    )
+    thread.daemon = True
+    thread.start()
 
 # ============================================================
 # Portfolio Data - Dynamic Content
@@ -354,30 +335,42 @@ def contact():
                                    form_data={'name': name, 'email': email,
                                               'subject': subject, 'message': message})
 
-        # Save message to JSON file
-        save_message(name, email, subject, message)
+        # Send email notification (async to avoid Render timeout)
+        send_email_async(name, email, subject, message)
 
-        # Send email notification
-        send_email_notification(name, email, subject, message)
+        # Save message to messages.json
+        try:
+            messages_file = os.path.join(app.root_path, 'messages.json')
+            if os.path.exists(messages_file):
+                with open(messages_file, 'r', encoding='utf-8') as f:
+                    try:
+                        messages = json.load(f)
+                    except json.JSONDecodeError:
+                        messages = []
+            else:
+                messages = []
+                
+            new_id = 1 if not messages else max(msg.get('id', 0) for msg in messages) + 1
+            new_msg_data = {
+                'id': new_id,
+                'name': name,
+                'email': email,
+                'subject': subject,
+                'message': message,
+                'timestamp': datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+            }
+            messages.append(new_msg_data)
+            
+            with open(messages_file, 'w', encoding='utf-8') as f:
+                json.dump(messages, f, indent=4)
+        except Exception as e:
+            print(f"Error saving message to JSON: {e}")
 
         # Success
         flash('Thank you for your message! I will get back to you soon.', 'success')
         return redirect(url_for('contact'))
 
     return render_template('contact.html', profile=PROFILE, form_data={})
-
-
-@app.route('/messages')
-def messages():
-    """Messages page - View all received contact messages."""
-    all_messages = []
-    if os.path.exists(MESSAGES_FILE):
-        try:
-            with open(MESSAGES_FILE, 'r', encoding='utf-8') as f:
-                all_messages = json.load(f)
-        except (json.JSONDecodeError, IOError):
-            all_messages = []
-    return render_template('messages.html', profile=PROFILE, messages=all_messages)
 
 
 @app.errorhandler(404)
